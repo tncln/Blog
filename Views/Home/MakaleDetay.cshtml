@@ -1,0 +1,164 @@
+﻿@model mvcBlog.Models.Makale
+
+@{
+    /**/
+
+    ViewBag.Title = "Makale Detay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card mb-4">
+    <img class="card-img-top" style="max-width: 700px; max-height: 300px;" src="@Model.Foto">
+    <div class="card-body">
+        <h2 class="card-title">@Model.Baslik <small class="text-muted" style="font-size: 14px;">Yayınlandığı tarih @String.Format("{0: MMMM yyyy}", Model.Tarih)</small>  </h2>
+        <p class="card-text lead">
+            @Html.Raw(Model.Icerik.Substring(0, 150))
+        </p>
+        <p class="card-text">
+            @Html.Raw(Model.Icerik)
+        </p>
+        <div class="well" style="background-color:burlywood;">
+            @foreach (var i in Model.Etikets)
+            {
+                <span>@i.EtiketAdi,</span>
+            }
+        </div>
+
+    </div>
+    <div class="card-footer text-muted">
+        <span>Yayınlandığı tarih @String.Format("{0: MMMM yyyy}", Model.Tarih)</span>
+    </div>
+</div>
+@foreach (var item in Model.Yorums.ToList())
+{
+    <div style="min-height: 400px;" class="col-md-12">
+        <h3>Yazar Hakkında</h3>
+        <hr>
+        <div class="media my-2">
+            <img class="mr-4" src="@item.Foto" alt="@Model.Uye.AdSoyad">
+            <div class="media-body">
+                <h4 class="media-heading">
+                    <a href="/Home/UyeProfil/@Model.Uye.UyeId"> @item.Uye.KullaniciAdi</a>
+                    <small>@item.Tarih</small>
+                </h4>
+                @item.Icerik - @if (Convert.ToInt32(Session["uyeid"]) == item.UyeId)
+                {
+                    <a class="btn btn-danger" href="/Home/YorumSil/@item.YorumId">Sil</a>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@if (Session["uyeid"] != null)
+{
+    <div class="well">
+        <h4>Yorum Yap</h4>
+        <form role="form">
+            <div class="form-group">
+                <textarea id="yorum" typeof="text" class="form-control" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Yorum Yap</button>
+        </form>
+    </div>
+}
+else
+{
+    <div class="well">
+        <h3>Makaleye yorum yapmak için kullanıcı girişi yapmalısınız!</h3>
+        <p><a href="/Uye/Login/">Giriş Yap</a></p>
+    </div>
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#gonder").click(function () {
+        var yorumunuz = $("#yorum").val();
+        $.ajax({
+            url: '/Home/YorumYap',
+            data: { yorum=yorumunuz, Makaleid=@Model.MakaleId },
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) { alert("Yorum Gönderildi." + yorumunuz); }
+        });
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            url: '/Home/OkunmaArttir',
+            data: { Makaleid:@Model.MakaleId},
+            type: 'POST'
+
+
+        });
+    })
+</script>
+@*<h2>MakaleDetay</h2>
+
+    <div>
+        <h4>Makale</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Kategori.KategoriAdi)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Kategori.KategoriAdi)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Uye.KullaniciAdi)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Uye.KullaniciAdi)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Baslik)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Baslik)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Icerik)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Icerik)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Foto)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Foto)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Tarih)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Tarih)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Okunma)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Okunma)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.MakaleId }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>*@

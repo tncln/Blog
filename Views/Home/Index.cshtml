@@ -1,0 +1,44 @@
+﻿@using PagedList
+@using PagedList.Mvc
+@model IPagedList<mvcBlog.Models.Makale>
+@{
+    ViewBag.Title = "Index";
+}
+@foreach (var i in Model)
+{
+    <div class="card mb-4">
+        <img class="card-img-top img-responsive" alt="@i.Baslik" style="max-width: 700px; max-height: 300px;" src="@i.Foto">
+        <div class="card-body">
+            <h2 class="card-title">
+                <a href="/Home/MakaleDetay/@i.MakaleId">
+                    @i.Baslik
+                </a>
+            </h2>
+
+            @if (i.Icerik.Length > 150)
+            {
+                <p class="card-text">
+                    @Html.Raw(i.Icerik.Substring(0,146)) ...
+                </p>
+            }
+            else
+            {
+                <p class="card-text">
+                    @Html.Raw(i.Icerik)
+                </p>
+            }
+            
+
+            <a href="/Home/MakaleDetay/@i.MakaleId" class="btn btn-default">Devamını Oku <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+        </div>
+        <div class="card-footer text-muted">
+            <span class="text-muted">Yayınlandığı tarih : @string.Format("{0: dd MMMM yyyy}",i.Tarih) - <a href="/Uye/UyeProfil/@i.Uye.UyeId">@i.Uye.KullaniciAdi</a> - Okunma: </span>
+        </div>
+    </div>
+}
+
+<div class="row text-center">
+    <div class="pagedList pagination-lg">
+        @Html.PagedListPager((IPagedList)Model,Page=>Url.Action("Index",new { Page }),PagedListRenderOptions.Classic)
+    </div>
+</div>

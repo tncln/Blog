@@ -1,0 +1,129 @@
+﻿<!doctype html>
+<html lang="tr">
+<head>
+    <title>TNC Blog | Hoşgeldiniz..</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Adem Tunçalın Blog">
+    <meta name="keywords" content="HTML,CSS,Bootstrap, Asp. Net MVC, JQuery">
+    <meta name="author" content="Adem Tunçalın">
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Abel" rel="stylesheet">
+    <link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Css/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+    <!-- Bootstrap CSS -->
+    <link href="~/Content/css/bootstrap.css" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary ">
+        <div class="container">
+            <a href="/Home/Index/" class="navbar-brand">Adem TUNÇALIN</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menuac">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="menuac">
+
+                <ul class="navbar-nav ml-auto">
+
+                    <li class="nav-item ">
+                        <a href="/Home/Index/" class="nav-link"><i class="fa fa-home" aria-hidden="true"></i> ANASAYFA</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="/Home/Hakkimda/" class="nav-link"><i class="glyphicon glyphicon-education" aria-hidden="true"></i> Hakkımda</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="/Home/Projeler/" class="nav-link"><i class="glyphicon glyphicon-briefcase" aria-hidden="true"></i> Projeler</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="/Home/Iletisim/" class="nav-link mr-4"><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i> İletişim</a>
+                    </li>
+                    @if (Session["uyeid"] != null)
+                    {
+                        if (Convert.ToInt32(Session["yetkiid"]) == 1)
+                        {
+                            <li class="nav-item">
+                                <a href="/Admin/Index/" target="_blank" class="nav-link"><i class="glyphicon glyphicon-cd" aria-hidden="true"></i> Admin Paneli</a>
+                            </li>
+                        }
+                        <li class="nav-item">
+                            <a href="/Uye/Index/@Session["uyeid"]" class="nav-link ml-2"><i class="glyphicon glyphicon-user" aria-hidden="true"></i> @Session["kullaniciadi"].ToString()</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Uye/Logout/" class="nav-link"><i class="glyphicon glyphicon-log-out" aria-hidden="true"></i> Çıkış</a>
+                        </li>
+
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a href="/Uye/Create/" class="nav-link ml-2"><i class="glyphicon glyphicon-check" aria-hidden="true"></i> Kayıt Ol</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Uye/Login/" class="nav-link"><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i> Giriş Yap</a>
+                        </li>
+                    }
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col-md-8">
+                @RenderBody()
+
+            </div>
+
+
+            <div class="col-md-4">
+                @Html.Partial("BlogAraPartial")
+
+                <div class="card bg-muted mb-2">
+                    <h6 class="card-header">Kategoriler</h6>
+                    @{
+                        Html.RenderAction("KategoriPartial", "Home");
+                    }
+                </div>
+
+                <div class="card bg-muted mb-2">
+                    <h6 class="card-header">En Çok Okunan Makaleler</h6>
+                    @{
+                        Html.RenderAction("PopulerMakaleler", "Home");
+                    }
+                </div>
+
+                <div class="card bg-muted mb-2">
+                    <h6 class="card-header">Son Yapılan Yorumlar</h6>
+                    @{
+                        Html.RenderAction("SonYorumlar", "Home");
+                    }
+                </div>
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="@Url.Content("~/Scripts/gridmvc.min.js")" type="text/javascript"></script>
+    <script src="~/Content/js/jquery-3.2.1.slim.min.js"></script>
+    <script src="~/Content/js/popper.js"></script>
+    <script src="~/Content/js/bootstrap.min.js"></script>
+
+</body>
+</html>

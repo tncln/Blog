@@ -1,0 +1,20 @@
+﻿@model IEnumerable<mvcBlog.Models.Yorum>
+@{ 
+    Layout = null;
+}
+<div class="card-body">
+    <div class="row">
+        <div class="col-md-5">
+            <ul class="list-unstyled">
+                @foreach (var item in Model)
+                {
+                    <li>@item.Icerik.Substring(0,70)</li>
+                }
+
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+

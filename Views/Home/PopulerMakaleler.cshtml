@@ -1,0 +1,19 @@
+﻿@model IEnumerable<mvcBlog.Models.Makale>
+
+@{
+    Layout = null;
+}
+<div class="card-body">
+    <div class="row">
+        <div class="col-md-5">
+            <ul class="list-unstyled">
+                @foreach (var item in Model)
+                {
+                    <li><a href="/Home/MakaleDetay/@item.MakaleId">@item.Baslik</a> (@item.Okunma)</li>
+                }
+
+
+            </ul>
+        </div>
+    </div>
+</div>
